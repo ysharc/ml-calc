@@ -4,8 +4,8 @@
 
 import os
 from sklearn.externals import joblib
-
-MODELS = {}
+from sklearn.neighbors import KNeighborsClassifier
+import pandas as pd
 
 def load(model_name, parameters=None):
 	"""
@@ -18,3 +18,15 @@ def load(model_name, parameters=None):
 	model = MODELS[model_name]()
 	joblib.dump(model, model_name + ".pkl")
 	return model
+
+def knn_default():
+	"""
+		the knn classifier with all default parameters
+	"""
+	knn = KNeighborsClassifier()
+	knn.fit(TRAIN_DATA, LABELS)
+	return knn
+
+MODELS = {"knn_default": knn_default}
+TRAIN_DATA = pd.read_csv("train_data/train.csv")
+LABELS = TRAIN_DATA.pop("label")

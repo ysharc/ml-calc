@@ -5,3 +5,4 @@ models
 __pycache__
 test_data
 test_images
+metrics

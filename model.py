@@ -5,6 +5,7 @@
 import os
 from sklearn.externals import joblib
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
 import pandas as pd
 
 def load(model_name, parameters=None):
@@ -27,6 +28,33 @@ def knn_default():
 	knn.fit(TRAIN_DATA, LABELS)
 	return knn
 
-MODELS = {"knn_default": knn_default}
+def knn_1_neighbor():
+	"""
+		nearest neighbor classification
+	"""
+	knn = KNeighborsClassifier(n_neighbors=1)
+	knn.fit(TRAIN_DATA, LABELS)
+	return knn
+
+def knn_10_neighbors():
+	"""
+		knn with 10 neighbors
+	"""
+	knn = KNeighborsClassifier(n_neighbors=10)
+	knn.fit(TRAIN_DATA, LABELS)
+	return knn
+
+def svm_default():
+	"""
+		SVM with deafult parameters
+	"""
+	svm_classifier = SVC()
+	svm_classifier.fit(TRAIN_DATA, LABELS)
+	return svm_classifier
+
+MODELS = {"knn_default": knn_default,
+										"knn_1_neighbor": knn_1_neighbor,
+										"knn_10_neighbors": knn_10_neighbors,
+										"svm_default": svm_default}
 TRAIN_DATA = pd.read_csv("train_data/train.csv")
 LABELS = TRAIN_DATA.pop("label")

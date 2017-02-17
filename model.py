@@ -6,6 +6,7 @@ import os
 from sklearn.externals import joblib
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
 import pandas as pd
 
 def load(model_name, parameters=None):
@@ -52,9 +53,27 @@ def svm_default():
 	svm_classifier.fit(TRAIN_DATA, LABELS)
 	return svm_classifier
 
+def ada_boost_default():
+	"""
+		ada_boost on decision trees with deafult parameters
+	"""
+	ab_classifier = AdaBoostClassifier(n_estimators=600)
+	ab_classifier.fit(TRAIN_DATA, LABELS)
+	return ab_classifier
+
+def random_forest_classifier():
+	"""
+		Random Forest with default parameters
+	"""
+	rf_classifier = RandomForestClassifier(n_estimators=100)
+	rf_classifier.fit(TRAIN_DATA, LABELS)
+	return rf_classifier
+
 MODELS = {"knn_default": knn_default,
 										"knn_1_neighbor": knn_1_neighbor,
 										"knn_10_neighbors": knn_10_neighbors,
-										"svm_default": svm_default}
+										"svm_default": svm_default,
+										"ada_boost": ada_boost_default,
+										"random_forest": random_forest_classifier}
 TRAIN_DATA = pd.read_csv("train_data/train.csv")
 LABELS = TRAIN_DATA.pop("label")
